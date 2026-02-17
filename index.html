@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3x3 Grid</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .grid {
+      display: grid;
+    }
+
+    .square {
+      background-color: lightblue;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Triangle containers */
+    .triangle {
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+    }
+
+    /* Small brown triangle */
+    .triangle-small {
+      left: 15%;
+      border-width: 0 20px 50px 20px;
+      border-color: transparent transparent #8B4513 transparent;
+    }
+
+    /* Medium brown triangle */
+    .triangle-medium {
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 0 25px 80px 25px;
+      border-color: transparent transparent #A0522D transparent;
+    }
+
+    /* Large brown triangle */
+    .triangle-large {
+      right: 15%;
+      border-width: 0 30px 100px 30px;
+      border-color: transparent transparent #654321 transparent;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="grid">
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
