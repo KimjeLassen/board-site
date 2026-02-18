@@ -41,11 +41,6 @@ function createGrid() {
 (createGrid)();
 
 function drawColor() {
-    if (PLAYING === 0)
-    {
-        console.log("DEAD")
-        return;
-    }
     const squares = document.querySelectorAll('.square');
     
     squares.forEach(square => {
@@ -122,72 +117,77 @@ function removeTentSVG(square) {
 }
 (drawColor)();
 
-function moveLeft() {
-    console.log("Move left")
-    const square = document.querySelector('.selected');
-    const id = parseInt(square.id.replace("square-", ""));
-
-    if (id % GRID_SIZE === 1) {
+function move(direction) {
+    if (PLAYING === 0)
+    {
+        console.log("DEAD")
         return;
     }
-
-    const nextSquare = document.querySelector(`#square-${id - 1}`);
-    square.classList.remove('selected');
-    nextSquare.classList.add('selected');
-    drawColor();
-}
-
-function moveRight() {
-    console.log("Move right");
-    const square = document.querySelector('.selected');
-    const id = parseInt(square.id.replace("square-", ""));
-
-    if (id % GRID_SIZE === 0) {
-        return;
-    }
-
-    const nextSquare = document.querySelector(`#square-${id + 1}`);
-    square.classList.remove('selected');
-    nextSquare.classList.add('selected');
-    drawColor();
-}
-
-function moveUp() {
-    console.log("Move up");
-    const square = document.querySelector('.selected');
-    const id = parseInt(square.id.replace("square-", ""));
-
-    if (id <= GRID_SIZE) {
-        return;
-    }
-
-    const nextSquare = document.querySelector(`#square-${id - GRID_SIZE}`);
-    square.classList.remove('selected');
-    nextSquare.classList.add('selected');
-    drawColor();
-}
-
-function moveDown() {
-    console.log("Move down");
+    console.log("Move " + direction)
     const square = document.querySelector('.selected');
     const id = parseInt(square.id.replace("square-", ""));
     const totalSquares = document.querySelectorAll('.square').length;
-
+    let nextSquare;
+    switch (direction) {
+        case "down":
+            nextSquare = getNextSquareDown(id, totalSquares);
+            break;
+        case "up":
+            nextSquare = getNextSquareUp(id);
+            break;
+        case "left":
+            nextSquare = getNextSquareLeft(id);
+            break;
+        case "right":
+            nextSquare = getNextSquareRight(id);
+            break;
+    }
+    if (typeof nextSquare !== 'undefined') {
+        square.classList.remove('selected');
+        nextSquare.classList.add('selected');
+        drawColor();
+    }
+}
+function getNextSquareDown(id, totalSquares) {
     if (id > totalSquares - GRID_SIZE) {
         return;
     }
 
     const nextSquare = document.querySelector(`#square-${id + GRID_SIZE}`);
-    square.classList.remove('selected');
-    nextSquare.classList.add('selected');
-    drawColor();
+    return nextSquare;
+}
+function getNextSquareUp(id) {
+    if (id <= GRID_SIZE) {
+        return;
+    }
+
+    const nextSquare = document.querySelector(`#square-${id - GRID_SIZE}`);
+    return nextSquare;
+}
+
+function getNextSquareLeft(id) {
+    if (id % GRID_SIZE === 1) {
+        return;
+    }
+
+    const nextSquare = document.querySelector(`#square-${id - 1}`);
+    return nextSquare;
+}
+
+function getNextSquareRight(id) {
+    if (id % GRID_SIZE === 0) {
+        return;
+    }
+
+    const nextSquare = document.querySelector(`#square-${id + 1}`);
+    return nextSquare;
 }
 
 const keyAction = {
-    ArrowLeft: { keydown: moveLeft },
-    ArrowRight: { keydown: moveRight },
-    ArrowUp: { keydown: moveUp },
-    ArrowDown: { keydown: moveDown }
+    ArrowLeft: { keydown: () => move("left") },
+    ArrowRight: { keydown: () => move("right") },
+    ArrowUp: { keydown: () => move("up") },
+    ArrowDown: { keydown: () => move("down") }
 }
 const keyHandler = (ev) => {
     if (ev.repeat) return;
