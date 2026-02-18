@@ -1,4 +1,5 @@
 const GRID_SIZE = 5;
+let PLAYING = 1;
 
 function createGrid() {
     const grid = document.querySelector('.grid');
@@ -40,6 +41,11 @@ function createGrid() {
 (createGrid)();
 
 function drawColor() {
+    if (PLAYING === 0)
+    {
+        console.log("DEAD")
+        return;
+    }
     const squares = document.querySelectorAll('.square');
     
     squares.forEach(square => {
@@ -55,6 +61,11 @@ function drawColor() {
                 body.appendChild(newGrid);
                 createGrid();
                 drawColor();
+            }
+            else 
+            {
+                console.log("YOURE DEAD")
+                PLAYING = 0;
             }
         }
         else if (square.classList.contains('selected')) {
